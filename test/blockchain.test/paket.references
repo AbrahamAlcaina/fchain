@@ -1,0 +1,4 @@
+FSharp.Core
+xunit
+xunit.runner.console
+SpecFlow.NetCore

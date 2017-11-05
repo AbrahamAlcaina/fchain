@@ -1,0 +1,10 @@
+source https://www.nuget.org/api/v2
+
+framework: netcoreapp2.0
+nuget FAKE
+nuget FSharp.Core
+nuget xunit
+nuget xunit.runner.visualstudio
+nuget FsUnit.xUnit
+nuget xunit.runner.console
+nuget SpecFlow.NetCore
