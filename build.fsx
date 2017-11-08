@@ -11,7 +11,6 @@
 open Fake
 open System
 open Fake.Testing
-open Fake.SpecFlowHelper 
 // --------------------------------------------------------------------------------------
 // Build variables
 // --------------------------------------------------------------------------------------
@@ -20,7 +19,7 @@ let buildDir  = "./build/"
 let appReferences = !! "/**/*.fsproj"
 let dotnetcliVersion = "2.0.2"
 let testDir = "./test/"
-let xUnitConsole = "./packages/xunit.runner.console/tools/netcoreapp2.0/xunit.console.dll"
+let xUnitConsole = "./packages/xunit.runner.console/tools/net452/xunit.console.exe"
 let mutable dotnetExePath = "dotnet"
 
 
@@ -76,16 +75,16 @@ Target "Build" (fun _ ->
 )
 
 Target "Test" (fun _ ->
-    //!! (testDir @@"/**/bin/**/*.test.dll")
-    // |> xUnit2 (fun p -> { p with HtmlOutputPath = Some (testDir @@ "xunit.html"); ToolPath = xUnitConsole })
-    run dotnetExePath "./packages/xunit.runner.console/tools/netcoreapp2.0/xunit.console.dll \"./test/blockchain.test/bin/Debug/netcoreapp2.0/blockchain.test.dll\" -parallel none -xml \"./test/xunit.xml\" " "."
+    // don't work with .netcore 2.0
+    !! (testDir @@"/**/bin/**/*.test.dll")
+     |> xUnit2 (fun p -> { p with HtmlOutputPath = Some (testDir @@ "unit.html"); ToolPath = xUnitConsole })
+    // run in the cli
+    //run dotnetExePath "./packages/xunit.runner.console/tools/net452/xunit.console.exe \"./test/blockchain.test/bin/Debug/net461/blockchain.test.dll\" -parallel none -xml \"./test/xunit.xml\" " "."
 )
 
 Target "BDD" (fun _ ->
-    //!! (testDir @@"/**/bin/**/*.test.dll")
-    // |> xUnit2 (fun p -> { p with HtmlOutputPath = Some (testDir @@ "xunit.html"); ToolPath = xUnitConsole })
-    run dotnetExePath "./packages/SpecFlow.NetCore/lib/netcoreapp2.0/dotnet-SpecFlow.NetCore.dll \"-- --basefolder:./test\" " "."
-    
+    !! (testDir @@"/**/bin/**/bdd.dll")
+     |> xUnit2 (fun p -> { p with HtmlOutputPath = Some (testDir @@ "bdd.html"); ToolPath = xUnitConsole}) 
 )
 
 // --------------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-module testCli
+module TestCli
 
 open Xunit
 

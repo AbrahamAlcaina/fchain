@@ -1,10 +1,13 @@
 source https://www.nuget.org/api/v2
 
-framework: netcoreapp2.0
+framework: net461
 nuget FAKE
 nuget FSharp.Core
+nuget FSharp.NET.Sdk
 nuget xunit
 nuget xunit.runner.visualstudio
 nuget FsUnit.xUnit
 nuget xunit.runner.console
+nuget SpecFlow
 nuget SpecFlow.NetCore
+nuget TickSpec

@@ -453,4 +453,9 @@ bower_components
 
 ### WebSharper ###
 Scripts/
-test/xunit.xml
+
+### Custom ignores ###
+test/unit.xml
+test/unit.html
+test/bdd.html
+test/bdd.xml
