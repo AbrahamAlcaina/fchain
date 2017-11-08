@@ -3,6 +3,11 @@ language: csharp
 sudo: false  # use the new container-based Travis infrastructure
 
 script:
+  - git clone git@github.com:fsprojects/Paket.git
+  - cd Paket
+  - ./build.sh
+  - ./install.sh
+  - cd ..
   - ./build.sh CI
 
 mono:
