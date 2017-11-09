@@ -76,14 +76,14 @@ Target "Restore" (fun _ ->
 )
 
 Target "Build" (fun _ ->
-    appReferences
-    |> Seq.iter (fun p ->
-        let dir = System.IO.Path.GetDirectoryName p
-        if isWindows then 
+    if isWindows then 
+        appReferences
+        |> Seq.iter (fun p ->
+            let dir = System.IO.Path.GetDirectoryName p
             runDotnet dir "build"
-        else
-            runMono dir "build"
-    )
+        )
+    else
+        run "msbuild" "" "."
 )
 
 Target "Test" (fun _ ->
