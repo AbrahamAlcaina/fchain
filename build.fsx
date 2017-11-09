@@ -47,6 +47,14 @@ let runDotnet workingDir args =
             info.Arguments <- args) TimeSpan.MaxValue
     if result <> 0 then failwithf "dotnet %s failed" args
 
+let runMono workingDir args =
+    let result =
+        ExecProcess (fun info ->
+            info.FileName <- "mono"
+            info.WorkingDirectory <- workingDir
+            info.Arguments <- args) TimeSpan.MaxValue
+    if result <> 0 then failwithf "mono %s failed" args
+
 // --------------------------------------------------------------------------------------
 // Targets
 // --------------------------------------------------------------------------------------
@@ -56,10 +64,7 @@ Target "Clean" (fun _ ->
 )
 
 Target "InstallDotNetCLI" (fun _ ->
-    if isWindows then 
-        dotnetExePath <- DotNetCli.InstallDotNetSDK dotnetcliVersion
-    else 
-        dotnetExePath <- "mono"    
+        dotnetExePath <- DotNetCli.InstallDotNetSDK dotnetcliVersion    
 )
 
 Target "Restore" (fun _ ->
@@ -74,7 +79,10 @@ Target "Build" (fun _ ->
     appReferences
     |> Seq.iter (fun p ->
         let dir = System.IO.Path.GetDirectoryName p
-        runDotnet dir "build"
+        if isWindows then 
+            runDotnet dir "build"
+        else
+            runMono dir "build"
     )
 )
 
