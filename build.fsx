@@ -11,6 +11,7 @@
 open Fake
 open System
 open Fake.Testing
+open Fake.EnvironmentHelper
 // --------------------------------------------------------------------------------------
 // Build variables
 // --------------------------------------------------------------------------------------
@@ -55,7 +56,10 @@ Target "Clean" (fun _ ->
 )
 
 Target "InstallDotNetCLI" (fun _ ->
-    dotnetExePath <- DotNetCli.InstallDotNetSDK dotnetcliVersion
+    if isWindows then 
+        dotnetExePath <- DotNetCli.InstallDotNetSDK dotnetcliVersion
+    else 
+        dotnetExePath <- "mono"    
 )
 
 Target "Restore" (fun _ ->
