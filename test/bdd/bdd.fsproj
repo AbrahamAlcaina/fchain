@@ -9,7 +9,6 @@
     <EmbeddedResource Include="Refunded.feature" />
     <Compile Include="RefundedSteps.fs" />
     <EmbeddedResource Include="create-blocks-in-the-block-chain.feature" />
-    
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
