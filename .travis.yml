@@ -3,12 +3,14 @@ sudo: required
 dist: trusty # Ubuntu 14.04
 
 env:
- - HOME=/home/travis APPDATA=/home/travis LocalAppData=/home/travis
+  - HOME=/home/travis APPDATA=/home/travis LocalAppData=/home/travis TRAVIS_STAGE=0 # DISABLE_NETCORE=true
+ - HOME=/home/travis APPDATA=/home/travis LocalAppData=/home/travis TRAVIS_STAGE=1 # DISABLE_NETCORE=true
 
 addons:
   apt:
     packages:
       - libunwind8
+      - msbuild
 
 before_script:
   - wget https://github.com/fsharp/FAKE/releases/download/5.0.0-beta008/fake-dotnetcore-ubuntu.14.04-x64.zip -O /tmp/fake-dotnetcore-ubuntu.14.04-x64.zip
@@ -27,8 +29,8 @@ mono:
   - 5.4.1
 
 script: 
-  - fake run build.fsx
-#  - ./build.sh
+#  - fake run build.fsx
+  - ./build.sh
 
 branches:
   except:
