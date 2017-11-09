@@ -23,6 +23,8 @@ mono:
 script: 
 #  - fake run build.fsx
   - ./build.sh
+  - ./build.sh test
+  - ./build.sh BDD
 
 branches:
   except:
