@@ -1,6 +1,7 @@
 RESTRICTION: == net461
 NUGET
   remote: https://www.nuget.org/api/v2
+    dotnet-mono (0.3) - clitool: true
     FAKE (4.63.2)
     FSharp.Compiler.Tools (4.1.29)
     FSharp.Core (4.2.3)
