@@ -18,5 +18,5 @@ let x =     System.Reflection.Assembly.GetExecutingAssembly()
 let source = AssemblyStepDefinitionsSource(x)
 let scenarios resourceName = source.ScenariosFromEmbeddedResource resourceName |> MemberData.ofScenarios
 
-[<Theory; MemberData("scenarios", "Refunded.feature")>]
-let Refunded (scenario : Scenario) = scenario.Action.Invoke()
+[<Theory; MemberData("scenarios", "CreateBlocksInBlockchain.feature")>]
+let CreateBlocksInBlockchain (scenario : Scenario) = scenario.Action.Invoke()

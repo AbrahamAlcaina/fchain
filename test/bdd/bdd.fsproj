@@ -4,10 +4,13 @@
     <TargetFramework>net461</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Features.fs" />
+    <ProjectReference Include="..\..\src\blockchain\blockchain.fsproj" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="App.config" />
-    <Compile Include="RefundedSteps.fs" />
-    <EmbeddedResource Include="Refunded.feature" />
+    <Compile Include="Features.fs" />
+    <EmbeddedResource Include="CreateBlocksInBlockchain.feature" />
+    <Compile Include="CreateBlocksInBlockchainSteps.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
