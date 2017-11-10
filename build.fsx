@@ -47,14 +47,6 @@ let runDotnet workingDir args =
             info.Arguments <- args) TimeSpan.MaxValue
     if result <> 0 then failwithf "dotnet %s failed" args
 
-let runMono workingDir args =
-    let result =
-        ExecProcess (fun info ->
-            info.FileName <- "mono"
-            info.WorkingDirectory <- workingDir
-            info.Arguments <- args) TimeSpan.MaxValue
-    if result <> 0 then failwithf "mono %s failed" args
-
 // --------------------------------------------------------------------------------------
 // Targets
 // --------------------------------------------------------------------------------------
@@ -99,6 +91,8 @@ Target "BDD" (fun _ ->
      |> xUnit2 (fun p -> { p with HtmlOutputPath = Some (testDir @@ "bdd.html"); ToolPath = xUnitConsole}) 
 )
 
+Target "CI" DoNothing
+
 // --------------------------------------------------------------------------------------
 // Build order
 // --------------------------------------------------------------------------------------
@@ -107,5 +101,17 @@ Target "BDD" (fun _ ->
   ==> "InstallDotNetCLI"
   ==> "Restore"
   ==> "Build"
+
+"Build"
+    ==> "Test"
+
+"Build"
+    ==> "BDD"
+
+"Test"
+    ==> "CI"
+
+"BDD"
+    ==> "CI"
 
 RunTargetOrDefault "Build"

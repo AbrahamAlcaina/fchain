@@ -4,8 +4,8 @@
     <TargetFramework>net461</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="blockchain.fs" />
     <None Include="App.config" />
+    <Compile Include="blockchain.fs" />
     <Compile Include="crypto.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />

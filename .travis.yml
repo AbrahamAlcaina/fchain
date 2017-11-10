@@ -21,10 +21,7 @@ mono:
   - 5.4.1
 
 script: 
-#  - fake run build.fsx
-  - ./build.sh
-  - ./build.sh test
-  - ./build.sh BDD
+  - ./build.sh CI
 
 branches:
   except:

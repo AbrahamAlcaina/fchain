@@ -27,7 +27,8 @@ and BasicBlock = {
 
 type Ledger = Ledger of Block list
 
-let genesisBlock = Genesis {genesisHash = "75e13da2e9a446e01594ee3fda021abb1d8cfc11d8bda49735b692c5ef632285c3c937eb159e68cee47c9e53f6f721f0a4cf2099c4c01509f84de5aa38fdba79"}
+let genesisHash = "75e13da2e9a446e01594ee3fda021abb1d8cfc11d8bda49735b692c5ef632285c3c937eb159e68cee47c9e53f6f721f0a4cf2099c4c01509f84de5aa38fdba79"
+let genesisBlock = Genesis {genesisHash = genesisHash}
 let nextBlock previous time txs = 
     match previous with
         | Genesis { genesisHash = _genesisHash } -> RegularBlock {
