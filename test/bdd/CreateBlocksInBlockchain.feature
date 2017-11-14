@@ -5,12 +5,21 @@ Feature: Create blocks in the blockchain
 
     Scenario: Add a new block to an empty ledger
         Given I have an empty ledger
-        When I add a new "transaction"
+        When I add a new <transaction>
         Then The ledger only has the genesis block
+    Examples:
+        | transaction   |
+        | tx1           |
+        | tx2           |
     
     Scenario: Add a new block in to a ledger
         Given I have a non empty ledger
-        When I add a new "transaction"
-        Then The ledger has a new block with the "transaction"
+        When I add a new <transaction>
+        Then The ledger has a new block with the <transaction>
+    Examples:
+        | transaction   |
+        | tx1           |
+        | tx2           |
+    
     
     
