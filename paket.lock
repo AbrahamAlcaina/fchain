@@ -11,6 +11,7 @@ NUGET
       FSharp.Core (>= 3.1.2.5)
       xunit (2.1)
     Newtonsoft.Json (10.0.3)
+    ReportUnit (1.2.1)
     SpecFlow (2.2.1)
       Newtonsoft.Json (>= 9.0.1)
     SpecFlow.NetCore (1.0)

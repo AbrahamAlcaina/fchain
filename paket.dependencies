@@ -11,4 +11,5 @@ nuget xunit.runner.console
 nuget SpecFlow
 nuget SpecFlow.NetCore
 nuget TickSpec
+nuget ReportUnit
 clitool dotnet-mono 0.3.0

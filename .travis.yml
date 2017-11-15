@@ -21,6 +21,7 @@ mono:
 
 script: 
   - ./build.sh CI
+  - ./build.sh report
 
 branches:
   except:
