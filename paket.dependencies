@@ -11,4 +11,4 @@ nuget xunit.runner.console
 nuget SpecFlow
 nuget SpecFlow.NetCore
 nuget TickSpec
-nuget ReportUnit
+nuget ReportUnit >= 1.2.0

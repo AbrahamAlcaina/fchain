@@ -94,7 +94,7 @@ Target "BDD" (fun _ ->
 
 Target "Report" (fun _ ->
     CleanDir reports
-    run "./packages/ReportUnit/tools/ReportUnit.exe" "./test ./.reports" "."
+    run "./packages/ReportUnit/tools/ReportUnit.exe" "./test ./reports" "."
 )
 
 

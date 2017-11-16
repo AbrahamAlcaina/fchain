@@ -459,6 +459,6 @@ test/unit.xml
 test/unit.html
 test/bdd.html
 test/bdd.xml
-.reports
+reports
 _site
 .jekyll-metadata
