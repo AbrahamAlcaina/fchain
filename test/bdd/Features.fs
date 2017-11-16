@@ -14,9 +14,8 @@ type AssemblyStepDefinitionsSource(assembly : System.Reflection.Assembly) =
 /// Adapts a Scenario Sequence to match the required format for an xUnit MemberData attribute
 module MemberData =
     let ofScenarios xs = xs |> Seq.map (fun x -> [| x |])
-let x =     System.Reflection.Assembly.GetExecutingAssembly()
-let source = AssemblyStepDefinitionsSource(x)
+let source = AssemblyStepDefinitionsSource(System.Reflection.Assembly.GetExecutingAssembly())
 let scenarios resourceName = source.ScenariosFromEmbeddedResource resourceName |> MemberData.ofScenarios
 
 [<Theory; MemberData("scenarios", "CreateBlocksInBlockchain.feature")>]
-let CreateBlocksInBlockchain (scenario : Scenario) = scenario.Action.Invoke()
+let ``Create blocks in the blockchain`` (scenario : Scenario) = scenario.Action.Invoke()
