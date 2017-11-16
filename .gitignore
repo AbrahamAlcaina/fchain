@@ -460,3 +460,5 @@ test/unit.html
 test/bdd.html
 test/bdd.xml
 .reports
+_site
+.jekyll-metadata
