@@ -1,0 +1,17 @@
+_site
+.sass-cache
+.jekyll-metadata
+.vs
+.vscode
+build
+packages
+paket-files
+test
+src
+Gemfile
+Gemfile.lock
+node_modules
+vendor/bundle/
+vendor/cache/
+vendor/gems/
+vendor/ruby/
