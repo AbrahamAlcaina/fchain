@@ -20,7 +20,7 @@ let buildDir  = "./build/"
 let appReferences = !! "/**/*.fsproj"
 let dotnetcliVersion = "2.0.2"
 let testDir = "./test/"
-let reports = "./.reports"
+let reports = "./reports/"
 let xUnitConsole = "./packages/xunit.runner.console/tools/net452/xunit.console.exe"
 let mutable dotnetExePath = "dotnet"
 
@@ -53,11 +53,12 @@ let runDotnet workingDir args =
 // --------------------------------------------------------------------------------------
 
 Target "Clean" (fun _ ->
-    CleanDirs [buildDir; "./_site/"]
+    CleanDirs [buildDir; "./_site/"; reports]
 )
 
 Target "InstallDotNetCLI" (fun _ ->
-        dotnetExePath <- DotNetCli.InstallDotNetSDK dotnetcliVersion    
+    if not <| DotNetCli.isInstalled () then 
+        dotnetExePath <- DotNetCli.InstallDotNetSDK dotnetcliVersion
 )
 
 Target "Restore" (fun _ ->
