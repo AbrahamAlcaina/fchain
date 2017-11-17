@@ -462,3 +462,4 @@ test/bdd.xml
 reports
 _site
 .jekyll-metadata
+.paket/Paket.Restore.targets
