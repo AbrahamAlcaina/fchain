@@ -1,4 +1,4 @@
-module Features
+module ``Specifications =>``
 
 open TickSpec
 open Xunit
@@ -18,4 +18,4 @@ let source = AssemblyStepDefinitionsSource(System.Reflection.Assembly.GetExecuti
 let scenarios resourceName = source.ScenariosFromEmbeddedResource resourceName |> MemberData.ofScenarios
 
 [<Theory; MemberData("scenarios", "CreateBlocksInBlockchain.feature")>]
-let ``Create blocks in the blockchain`` (scenario : Scenario) = scenario.Action.Invoke()
+let ``Create blocks in the blockchain => `` (scenario : Scenario) = scenario.Action.Invoke()

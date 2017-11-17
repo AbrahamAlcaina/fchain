@@ -15,7 +15,7 @@ NUGET
     ReportUnit (1.2.1)
     SpecFlow (2.2.1)
       Newtonsoft.Json (>= 9.0.1)
-    SpecFlow.NetCore (1.0)
+    SpecFlow.NetCore (1.1)
       Newtonsoft.Json (>= 9.0.1)
       System.Xml.XPath.XDocument (>= 4.0.1)
     System.Xml.XPath (4.3)
