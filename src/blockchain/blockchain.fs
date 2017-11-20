@@ -32,15 +32,15 @@ let genesisBlock = Genesis {genesisHash = genesisHash}
 let nextBlock previous time txs = 
     match previous with
         | Genesis { genesisHash = _genesisHash } -> RegularBlock {
-               previousBlock = { index=0; hash=_genesisHash;};
+               previousBlock = { index=0; hash=_genesisHash };
                index = 1;
                timestamp = time;
                transactions = txs;
                hash = "";
             }
-        | RegularBlock {hash=previousHash}   -> RegularBlock {
-               previousBlock = { index=0; hash=previousHash;};
-               index = 1;
+        | RegularBlock {hash=previousHash;index=previousIndex}   -> RegularBlock {
+               previousBlock = { index=previousIndex ; hash=previousHash };
+               index = previousIndex + 1 ;
                timestamp = time;
                transactions = txs;
                hash = "";

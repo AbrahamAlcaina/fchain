@@ -20,7 +20,7 @@ let [<Then>] ``The ledger only has the genesis block`` () =
         | Genesis g -> g.genesisHash |> should equal genesisHash
         | RegularBlock _ -> Fail ()
     
-let  [<Given>] ``I have a non empty ledger`` ()= 
+let  [<Given>] ``I have a ledger with the genesis block`` ()= 
     ledger <- addBlock ledger now [{someData = ""}]
 let [<Then>] ``The ledger has a new block with the (.*)`` (tx) =     
     match ledger.Head with
@@ -32,9 +32,13 @@ let [<Then>] ``The ledger has a new block with the (.*)`` (tx) =
                 timestamp = timestamp;
                 transactions = transactions;
                 hash = hash
-            } ->    index |> should equal 1
-                    previousBlock.hash |> should equal genesisHash
+            } ->    index |> should equal (previousBlock.index + 1) 
+                    previousBlock.hash |> should equal previousBlock.hash
                     timestamp |> should equal now
                     hash |> should be Empty
                     transactions |> should haveLength 1
                     transactions.Head.someData |> should equal tx
+
+let [<Given>] ``I have a ledger with a one block`` () =
+    ledger <- addBlock ledger now [{someData = "Genesis block"}]
+    ledger <- addBlock ledger now [{someData = "First block"}]
