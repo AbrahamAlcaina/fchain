@@ -5,6 +5,8 @@ open TickSpec
 open Xunit
 open FsUnit.Xunit
 
+
+let transformTransactions txs = (List.map (fun x -> {someData = x }) (txs |> List.ofArray))
 let mutable ledger = []
 let now = System.DateTime.Now
 let Fail () = Assert.True(false) 
@@ -42,3 +44,26 @@ let [<Then>] ``The ledger has a new block with the (.*)`` (tx) =
 let [<Given>] ``I have a ledger with a one block`` () =
     ledger <- addBlock ledger now [{someData = "Genesis block"}]
     ledger <- addBlock ledger now [{someData = "First block"}]
+
+let [<When>] ``I create a new block with the follow transactions:`` (transactions: string[]) = 
+    ledger <- addBlock ledger now (transformTransactions transactions)
+
+let [<Then>] ``The ledger has a block with the follows transactions:`` (transactions: string[]) =     
+    match ledger.Head with
+        | Genesis _ -> Fail ()
+        | RegularBlock 
+            {
+                previousBlock = previousBlock ; 
+                index = index; 
+                timestamp = timestamp;
+                transactions = transactionsInBlock;
+                hash = hash
+            } ->    index |> should equal (previousBlock.index + 1) 
+                    previousBlock.hash |> should equal previousBlock.hash
+                    timestamp |> should equal now
+                    hash |> should be Empty
+                    transactionsInBlock |> should haveLength transactions.Length      
+                    transactions
+                        |> transformTransactions
+                        |> (=) transactionsInBlock  
+                        |> should be True            

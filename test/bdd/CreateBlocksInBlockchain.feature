@@ -29,6 +29,17 @@ Feature: Create blocks in the blockchain
         | transaction   |
         | tx1           |
         | tx2           |
+
+    Scenario: Add a new block into a ledger with multiples transactions
+        Given   I have a ledger with a one block
+        When    I create a new block with the follow transactions:
+            * tx1    
+            * tx2    
+            * tx3    
+        Then    The ledger has a block with the follows transactions:
+            * tx1    
+            * tx2    
+            * tx3    
     
     
     
