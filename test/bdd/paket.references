@@ -1,4 +1,6 @@
 FSharp.Core
 xunit
 xunit.runner.console
+xunit.runner.visualstudio
+FsUnit.xUnit
 TickSpec

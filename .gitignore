@@ -459,3 +459,7 @@ test/unit.xml
 test/unit.html
 test/bdd.html
 test/bdd.xml
+reports
+_site
+.jekyll-metadata
+.paket/Paket.Restore.targets

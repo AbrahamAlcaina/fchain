@@ -3,11 +3,13 @@ module CreateBlocksInBlockchain
 open Blockchain
 open TickSpec
 open Xunit
-open Blockchain
+open FsUnit.Xunit
 
+
+let transformTransactions txs = (List.map (fun x -> {someData = x }) (txs |> List.ofArray))
 let mutable ledger = []
 let now = System.DateTime.Now
-
+let Fail () = Assert.True(false) 
 let [<BeforeScenario>] Setup () =
     ledger <- []
 let [<Given>] ``I have an empty ledger`` ()=
@@ -15,17 +17,16 @@ let [<Given>] ``I have an empty ledger`` ()=
 let [<When>] ``I add a new (.*)`` (tx) = 
     ledger <- addBlock ledger now [{someData = tx}]
 let [<Then>] ``The ledger only has the genesis block`` () = 
-    Assert.True((ledger.Length) = 1)
+    ledger |> should haveLength 1
     match ledger.Head with
-        | Genesis g -> Assert.True (g.genesisHash = genesisHash)
-        | RegularBlock _ -> Assert.True(false)
+        | Genesis g -> g.genesisHash |> should equal genesisHash
+        | RegularBlock _ -> Fail ()
     
-let  [<Given>] ``I have a non empty ledger`` ()= 
+let  [<Given>] ``I have a ledger with the genesis block`` ()= 
     ledger <- addBlock ledger now [{someData = ""}]
-
 let [<Then>] ``The ledger has a new block with the (.*)`` (tx) =     
     match ledger.Head with
-        | Genesis _ -> Assert.True(false) 
+        | Genesis _ -> Fail ()
         | RegularBlock 
             {
                 previousBlock = previousBlock ; 
@@ -33,9 +34,36 @@ let [<Then>] ``The ledger has a new block with the (.*)`` (tx) =
                 timestamp = timestamp;
                 transactions = transactions;
                 hash = hash
-            } ->    Assert.Equal(index, 1)
-                    Assert.Equal(previousBlock.hash, genesisHash)
-                    Assert.Equal(timestamp, now)
-                    Assert.Empty(hash)
-                    Assert.Equal(transactions.Length, 1)
-                    Assert.Equal(transactions.Head.someData, tx)
+            } ->    index |> should equal (previousBlock.index + 1) 
+                    previousBlock.hash |> should equal previousBlock.hash
+                    timestamp |> should equal now
+                    hash |> should be Empty
+                    transactions |> should haveLength 1
+                    transactions.Head.someData |> should equal tx
+
+let [<Given>] ``I have a ledger with a one block`` () =
+    ledger <- addBlock ledger now [{someData = "Genesis block"}]
+    ledger <- addBlock ledger now [{someData = "First block"}]
+
+let [<When>] ``I create a new block with the follow transactions:`` (transactions: string[]) = 
+    ledger <- addBlock ledger now (transformTransactions transactions)
+
+let [<Then>] ``The ledger has a block with the follows transactions:`` (transactions: string[]) =     
+    match ledger.Head with
+        | Genesis _ -> Fail ()
+        | RegularBlock 
+            {
+                previousBlock = previousBlock ; 
+                index = index; 
+                timestamp = timestamp;
+                transactions = transactionsInBlock;
+                hash = hash
+            } ->    index |> should equal (previousBlock.index + 1) 
+                    previousBlock.hash |> should equal previousBlock.hash
+                    timestamp |> should equal now
+                    hash |> should be Empty
+                    transactionsInBlock |> should haveLength transactions.Length      
+                    transactions
+                        |> transformTransactions
+                        |> (=) transactionsInBlock  
+                        |> should be True            

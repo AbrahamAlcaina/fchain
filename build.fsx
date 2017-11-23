@@ -20,6 +20,7 @@ let buildDir  = "./build/"
 let appReferences = !! "/**/*.fsproj"
 let dotnetcliVersion = "2.0.2"
 let testDir = "./test/"
+let reports = "./reports/"
 let xUnitConsole = "./packages/xunit.runner.console/tools/net452/xunit.console.exe"
 let mutable dotnetExePath = "dotnet"
 
@@ -52,11 +53,12 @@ let runDotnet workingDir args =
 // --------------------------------------------------------------------------------------
 
 Target "Clean" (fun _ ->
-    CleanDirs [buildDir]
+    CleanDirs [buildDir; "./_site/"; reports]
 )
 
 Target "InstallDotNetCLI" (fun _ ->
-        dotnetExePath <- DotNetCli.InstallDotNetSDK dotnetcliVersion    
+    if not <| DotNetCli.isInstalled () then 
+        dotnetExePath <- DotNetCli.InstallDotNetSDK dotnetcliVersion
 )
 
 Target "Restore" (fun _ ->
@@ -81,15 +83,21 @@ Target "Build" (fun _ ->
 Target "Test" (fun _ ->
     // don't work with .netcore 2.0
     !! (testDir @@"/**/bin/**/*.test.dll")
-     |> xUnit2 (fun p -> { p with HtmlOutputPath = Some (testDir @@ "unit.html"); ToolPath = xUnitConsole })
+     |> xUnit2 (fun p -> { p with XmlOutputPath = Some (testDir @@ "unit.xml"); ToolPath = xUnitConsole })
     // run in the cli
     //run dotnetExePath "./packages/xunit.runner.console/tools/net452/xunit.console.exe \"./test/blockchain.test/bin/Debug/net461/blockchain.test.dll\" -parallel none -xml \"./test/xunit.xml\" " "."
 )
 
 Target "BDD" (fun _ ->
     !! (testDir @@"/**/bin/**/bdd.dll")
-     |> xUnit2 (fun p -> { p with HtmlOutputPath = Some (testDir @@ "bdd.html"); ToolPath = xUnitConsole}) 
+     |> xUnit2 (fun p -> { p with XmlOutputPath = Some (testDir @@ "bdd.xml"); ToolPath = xUnitConsole}) 
 )
+
+Target "Report" (fun _ ->
+    CleanDir reports
+    run "./packages/ReportUnit/tools/ReportUnit.exe" "./test ./reports" "."
+)
+
 
 Target "CI" DoNothing
 
